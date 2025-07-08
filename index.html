@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IT Help Chatbot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .chat-container {
+        width: 400px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .chat-box {
+        flex: 1;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fafafa;
+        max-height: 300px;
+      }
+
+      .chat-message {
+        margin: 5px 0;
+      }
+
+      .chat-message.user {
+        text-align: right;
+        color: #007bff;
+      }
+
+      .chat-message.bot {
+        text-align: left;
+        color: #333;
+      }
+
+      .input-area {
+        display: flex;
+        margin-top: 10px;
+      }
+
+      .input-area input {
+        flex: 1;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      .input-area button {
+        padding: 8px 12px;
+        margin-left: 5px;
+        border-radius: 5px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+
+      .input-area button:hover {
+        background-color: #0056b3;
+      }
+
+      .reset-button {
+        margin-top: 10px;
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        background-color: #6c757d;
+        color: white;
+        cursor: pointer;
+      }
+
+      .reset-button:hover {
+        background-color: #5a6268;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div id="chat-box" class="chat-box"></div>
+      <div class="input-area">
+        <input type="text" id="user-input" placeholder="Type your answer..." />
+        <button onclick="handleInput()">Send</button>
+      </div>
+      <button class="reset-button" onclick="resetChat()">Restart</button>
+    </div>
+
+    <script>
+      let currentQuestion = 0;
+      let awaitingSoftware = false;
+      let userName = "";
+
+      const chatBox = document.getElementById("chat-box");
+
+      const questions = ["Hi! What's your name?"];
+
+      const responses = {
+        "password": "Please try resetting your password via the options available through control alt delete on your computer. If you're locked out, contact Internal IT (Derrick or Angel).",
+        "email": "Contact Apex for email issues or check if it's related to third-party email services.",
+        "software": "Please provide the name of the application causing trouble. (Options: ms-365-apps, enabled, rforce/rsuite, ensemble, five9, other)",
+        "hardware": "Contact Internal IT or submit an IT ticket for hardware issues.",
+        "network": "Any Network, Wifi, or Internet problems please reach out to Apex.",
+        "other": "Submit a ticket to IT for further help."
+      };
+
+      const softwareSupport = {
+        "ms-365-apps": "For Microsoft Office issues, contact Internal IT.",
+        "enabled": "For all issues regarding Enabled +, please contact fetch.",
+        "rforce/rsuite": "For all rForce, rSuite, or any salesforce app, contact fetch please.",
+        "ensemble": "For all salesforce app issues, contact fetch please.",
+        "five9": "For five9 assistance contact Angel Chaple from IT.",
+        "other": "For other software, submit an IT ticket for guidance."
+      };
+
+      function addMessage(message, sender = "bot") {
+        const div = document.createElement("div");
+        div.textContent = message;
+        div.classList.add("chat-message", sender);
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      function sendToGoogleSheet(name, issue) {
+        fetch("https://script.google.com/macros/s/AKfycbwvbyjaXUnFkNhqEofQ3TDATHJ2DQgfJoiAiyy9I7VtAb7nguq1VEjyGRBrwgcj27QF0w/exec", {
+          method: "POST",
+          mode: "no-cors",  // Add this line
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name, issue: issue }),
+        }).catch(error => console.error('Error:', error));
+      }
+
+
+      function handleInput() {
+        const userInputElement = document.getElementById("user-input");
+        const userInput = userInputElement.value.trim();
+        const normalizedInput = userInput.toLowerCase();
+
+        if (!userInput) return;
+
+        addMessage(userInput, "user");
+        userInputElement.value = "";
+
+        if (currentQuestion === 0) {
+          userName = userInput;
+          addMessage(`Nice to meet you, ${userName}! What kind of problem are you having? (password / email / software / hardware / network / other)`, "bot");
+          currentQuestion++;
+          return;
+        }
+
+        if (awaitingSoftware) {
+          if (softwareSupport[normalizedInput]) {
+            addMessage(softwareSupport[normalizedInput], "bot");
+            sendToGoogleSheet(userName, normalizedInput);
+          } else {
+            addMessage("Software not recognized. Please submit an IT ticket for assistance.", "bot");
+            sendToGoogleSheet(userName, normalizedInput);
+          }
+          awaitingSoftware = false;
+          return;
+        }
+
+        if (responses[normalizedInput]) {
+          addMessage(responses[normalizedInput], "bot");
+          sendToGoogleSheet(userName, normalizedInput);
+          if (normalizedInput === "software") {
+            awaitingSoftware = true;
+          }
+        } else {
+          addMessage("Sorry, I didn't understand that. Please try again or submit a ticket.", "bot");
+          sendToGoogleSheet(userName, normalizedInput);
+        }
+      }
+
+      document.getElementById("user-input").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          handleInput();
+        }
+      });
+
+      function resetChat() {
+        chatBox.innerHTML = "";
+        currentQuestion = 0;
+        awaitingSoftware = false;
+        userName = "";
+        addMessage(questions[0], "bot");
+      }
+
+      addMessage(questions[0], "bot");
+    </script>
+  </body>
+</html>
