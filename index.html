@@ -3,20 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IT Help Chatbot</title>
+    <title>askRenewal - IT Help Chatbot</title>
     <style>
       body {
         font-family: Arial, sans-serif;
-        background-color: #f0f2f5;
+        background-color: #f0f2f505;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        height: 100vh;
         margin: 0;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 36px;
+        color: #00ff33;
+      }
+
+      .header p {
+        margin: 10px 0 0 0;
+        font-size: 16px;
+        color: #555;
+        max-width: 800px;
       }
 
       .chat-container {
-        width: 400px;
+        width: 800px;
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -42,7 +60,7 @@
 
       .chat-message.user {
         text-align: right;
-        color: #007bff;
+        color: #00ff33;
       }
 
       .chat-message.bot {
@@ -52,28 +70,29 @@
 
       .input-area {
         display: flex;
+        flex-direction: column;
         margin-top: 10px;
       }
 
-      .input-area input {
-        flex: 1;
+      .input-area input, .input-area select {
         padding: 8px;
         border-radius: 5px;
         border: 1px solid #ccc;
+        margin-bottom: 5px;
       }
 
       .input-area button {
         padding: 8px 12px;
-        margin-left: 5px;
         border-radius: 5px;
         border: none;
-        background-color: #007bff;
-        color: white;
+        background-color: #00ff33;
+        color: #000;
         cursor: pointer;
       }
 
       .input-area button:hover {
-        background-color: #0056b3;
+        background-color: #05d32e;
+        color: #fff;
       }
 
       .reset-button {
@@ -92,40 +111,67 @@
     </style>
   </head>
   <body>
+
+    <div class="header">
+      <h1>askRenewal</h1>
+      <p>
+        Welcome to askRenewal, your IT Directory for all IT-related issues.<br />
+        The goal of this page is to help you figure out who you need to contact based on the IT issue you are having.<br />
+        Please fill out the form below and follow the instructions presented based on your selections in the drop-down menus.
+      </p>
+    </div>
+
     <div class="chat-container">
       <div id="chat-box" class="chat-box"></div>
       <div class="input-area">
-        <input type="text" id="user-input" placeholder="Type your answer..." />
-        <button onclick="handleInput()">Send</button>
+        <input type="text" id="user-input" placeholder="Enter your name..." />
+        <select id="issue-select" style="display:none;">
+          <option value="">-- Select Issue --</option>
+          <option value="password">Password</option>
+          <option value="email">Email</option>
+          <option value="software">Software</option>
+          <option value="hardware">Hardware</option>
+          <option value="network">Network</option>
+          <option value="other">Other</option>
+        </select>
+
+        <select id="software-select" style="display:none;">
+          <option value="">-- Select Software --</option>
+          <option value="ms-365-apps">MS-365 Apps</option>
+          <option value="enabled">Enabled +</option>
+          <option value="rforce/rSuite">rForce / rSuite</option>
+          <option value="ensemble">Ensemble</option>
+          <option value="five9">Five9</option>
+          <option value="other">Other</option>
+        </select>
+
+        <button onclick="handleSelection()">Send</button>
       </div>
       <button class="reset-button" onclick="resetChat()">Restart</button>
     </div>
 
     <script>
       let currentQuestion = 0;
-      let awaitingSoftware = false;
       let userName = "";
 
       const chatBox = document.getElementById("chat-box");
 
-      const questions = ["Hi! What's your name?"];
-
       const responses = {
-        "password": "Please try resetting your password via the options available through control alt delete on your computer. If you're locked out, contact Internal IT (Derrick or Angel).",
-        "email": "Contact Apex for email issues or check if it's related to third-party email services.",
-        "software": "Please provide the name of the application causing trouble. (Options: ms-365-apps, enabled, rforce/rsuite, ensemble, five9, other)",
-        "hardware": "Contact Internal IT or submit an IT ticket for hardware issues.",
-        "network": "Any Network, Wifi, or Internet problems please reach out to Apex.",
-        "other": "Submit a ticket to IT for further help."
+        "password": "Please try resetting your password via control alt delete. If locked out, contact Internal IT.",
+        "email": "Contact Apex for email issues or third-party services.",
+        "software": "Please select the software from the dropdown.",
+        "hardware": "Contact Internal IT or submit a ticket.",
+        "network": "For network issues, reach out to Apex.",
+        "other": "Submit an IT ticket for assistance."
       };
 
       const softwareSupport = {
         "ms-365-apps": "For Microsoft Office issues, contact Internal IT.",
-        "enabled": "For all issues regarding Enabled +, please contact fetch.",
-        "rforce/rsuite": "For all rForce, rSuite, or any salesforce app, contact fetch please.",
-        "ensemble": "For all salesforce app issues, contact fetch please.",
-        "five9": "For five9 assistance contact Angel Chaple from IT.",
-        "other": "For other software, submit an IT ticket for guidance."
+        "enabled": "For Enabled + issues, contact fetch.",
+        "rforce/rSuite": "For rForce/rSuite, contact fetch.",
+        "ensemble": "For Ensemble, contact fetch.",
+        "five9": "For Five9, contact Angel Chaple.",
+        "other": "Submit an IT ticket for guidance."
       };
 
       function addMessage(message, sender = "bot") {
@@ -139,70 +185,68 @@
       function sendToGoogleSheet(name, issue) {
         fetch("https://script.google.com/macros/s/AKfycbwvbyjaXUnFkNhqEofQ3TDATHJ2DQgfJoiAiyy9I7VtAb7nguq1VEjyGRBrwgcj27QF0w/exec", {
           method: "POST",
-          mode: "no-cors",  // Add this line
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: name, issue: issue }),
         }).catch(error => console.error('Error:', error));
       }
 
-
-      function handleInput() {
-        const userInputElement = document.getElementById("user-input");
-        const userInput = userInputElement.value.trim();
-        const normalizedInput = userInput.toLowerCase();
-
-        if (!userInput) return;
-
-        addMessage(userInput, "user");
-        userInputElement.value = "";
+      function handleSelection() {
+        const nameInput = document.getElementById("user-input");
+        const issueSelect = document.getElementById("issue-select");
+        const softwareSelect = document.getElementById("software-select");
 
         if (currentQuestion === 0) {
-          userName = userInput;
-          addMessage(`Nice to meet you, ${userName}! What kind of problem are you having? (password / email / software / hardware / network / other)`, "bot");
+          const name = nameInput.value.trim();
+          if (!name) return;
+          userName = name;
+          addMessage(name, "user");
+          addMessage(`Nice to meet you, ${userName}! What kind of problem are you having?`, "bot");
+          nameInput.style.display = "none";
+          issueSelect.style.display = "block";
           currentQuestion++;
           return;
         }
 
-        if (awaitingSoftware) {
-          if (softwareSupport[normalizedInput]) {
-            addMessage(softwareSupport[normalizedInput], "bot");
-            sendToGoogleSheet(userName, normalizedInput);
-          } else {
-            addMessage("Software not recognized. Please submit an IT ticket for assistance.", "bot");
-            sendToGoogleSheet(userName, normalizedInput);
-          }
-          awaitingSoftware = false;
+        if (softwareSelect.style.display === "block") {
+          const software = softwareSelect.value;
+          if (!software) return;
+          addMessage(software, "user");
+          addMessage(softwareSupport[software], "bot");
+          sendToGoogleSheet(userName, software);
+          softwareSelect.style.display = "none";
+          issueSelect.style.display = "none";
           return;
         }
 
-        if (responses[normalizedInput]) {
-          addMessage(responses[normalizedInput], "bot");
-          sendToGoogleSheet(userName, normalizedInput);
-          if (normalizedInput === "software") {
-            awaitingSoftware = true;
+        if (issueSelect.style.display === "block") {
+          const issue = issueSelect.value;
+          if (!issue) return;
+          addMessage(issue, "user");
+          addMessage(responses[issue], "bot");
+          sendToGoogleSheet(userName, issue);
+
+          if (issue === "software") {
+            softwareSelect.style.display = "block";
+          } else {
+            issueSelect.style.display = "none";
           }
-        } else {
-          addMessage("Sorry, I didn't understand that. Please try again or submit a ticket.", "bot");
-          sendToGoogleSheet(userName, normalizedInput);
+          return;
         }
       }
-
-      document.getElementById("user-input").addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          handleInput();
-        }
-      });
 
       function resetChat() {
         chatBox.innerHTML = "";
+        document.getElementById("user-input").style.display = "block";
+        document.getElementById("issue-select").style.display = "none";
+        document.getElementById("software-select").style.display = "none";
+        document.getElementById("user-input").value = "";
         currentQuestion = 0;
-        awaitingSoftware = false;
         userName = "";
-        addMessage(questions[0], "bot");
+        addMessage("Hello, please enter your full name:", "bot");
       }
 
-      addMessage(questions[0], "bot");
+      addMessage("Hello, please enter your full name:", "bot");
     </script>
   </body>
 </html>
