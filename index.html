@@ -97,17 +97,24 @@
       };
 
       const softwareSupport = {
-        "ms-365-apps": "For Microsoft Office issues, contact Internal IT.",
-        enabled: "For Enabled + issues, contact fetch.",
-        "rforce/rSuite": "For rForce/rSuite, contact fetch.",
-        ensemble: "For Ensemble, contact fetch.",
-        five9: "For Five9, contact Angel Chaple.",
-        other: "Submit an IT ticket for guidance.",
+        "ms-365-apps":
+          "For Microsoft Office issues, contact Internal IT (Angel/Derrick).",
+        "enabled": `For Enabled + issues, contact fetch: 
+    <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
+    <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+        "rforce/rSuite": `For rForce/rSuite, contact fetch: 
+    <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
+    <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+        "ensemble": `For Ensemble, contact fetch: 
+    <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
+    <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+        "five9": `For Five9, contact <a href="mailto:angel.chaple@example.com" class="text-blue-600 underline">Angel Chaple</a>.`,
+        "other": "Submit an IT ticket for guidance.",
       };
 
       function addMessage(message, sender = "bot") {
         const div = document.createElement("div");
-        div.textContent = message;
+        div.innerHTML = message;
         div.className = `p-2 rounded-md max-w-[75%] ${
           sender === "user"
             ? "bg-green-100 text-right ml-auto"
