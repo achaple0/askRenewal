@@ -4,128 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>askRenewal - IT Help Chatbot</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f2f505;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-        padding: 20px;
-      }
-
-      .header {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      .header h1 {
-        margin: 0;
-        font-size: 36px;
-        color: #00ff33;
-      }
-
-      .header p {
-        margin: 10px 0 0 0;
-        font-size: 16px;
-        color: #555;
-        max-width: 800px;
-      }
-
-      .chat-container {
-        width: 800px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-      }
-
-      .chat-box {
-        flex: 1;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #fafafa;
-        max-height: 300px;
-      }
-
-      .chat-message {
-        margin: 5px 0;
-      }
-
-      .chat-message.user {
-        text-align: right;
-        color: #00ff33;
-      }
-
-      .chat-message.bot {
-        text-align: left;
-        color: #333;
-      }
-
-      .input-area {
-        display: flex;
-        flex-direction: column;
-        margin-top: 10px;
-      }
-
-      .input-area input, .input-area select {
-        padding: 8px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        margin-bottom: 5px;
-      }
-
-      .input-area button {
-        padding: 8px 12px;
-        border-radius: 5px;
-        border: none;
-        background-color: #00ff33;
-        color: #000;
-        cursor: pointer;
-      }
-
-      .input-area button:hover {
-        background-color: #05d32e;
-        color: #fff;
-      }
-
-      .reset-button {
-        margin-top: 10px;
-        padding: 8px;
-        border-radius: 5px;
-        border: none;
-        background-color: #6c757d;
-        color: white;
-        cursor: pointer;
-      }
-
-      .reset-button:hover {
-        background-color: #5a6268;
-      }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-
-    <div class="header">
-      <h1>askRenewal</h1>
-      <p>
+  <body class="bg-gray-100 min-h-screen p-6 flex flex-col items-center">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-5xl font-bold text-green-500">askRenewal</h1>
+      <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
         Welcome to askRenewal, your IT Directory for all IT-related issues.<br />
-        The goal of this page is to help you figure out who you need to contact based on the IT issue you are having.<br />
-        Please fill out the form below and follow the instructions presented based on your selections in the drop-down menus.
+        The goal of this page is to help you figure out who you need to contact
+        based on the IT issue you are having.<br />
+        Please fill out the form below and follow the instructions presented
+        based on your selections in the drop-down menus.
       </p>
     </div>
 
-    <div class="chat-container">
-      <div id="chat-box" class="chat-box"></div>
-      <div class="input-area">
-        <input type="text" id="user-input" placeholder="Enter your name..." />
-        <select id="issue-select" style="display:none;">
+    <!-- Chat Container -->
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-3xl">
+      <div
+        id="chat-box"
+        class="chat-box flex flex-col max-h-80 overflow-y-auto border border-gray-300 rounded-md p-4 bg-gray-50 mb-4 space-y-2"
+      >
+        <!-- Messages will be injected here -->
+      </div>
+
+      <!-- Input Area -->
+      <div class="space-y-2">
+        <input
+          type="text"
+          id="user-input"
+          placeholder="Enter your name..."
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
+
+        <select
+          id="issue-select"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md hidden"
+        >
           <option value="">-- Select Issue --</option>
           <option value="password">Password</option>
           <option value="email">Email</option>
@@ -135,7 +50,10 @@
           <option value="other">Other</option>
         </select>
 
-        <select id="software-select" style="display:none;">
+        <select
+          id="software-select"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md hidden"
+        >
           <option value="">-- Select Software --</option>
           <option value="ms-365-apps">MS-365 Apps</option>
           <option value="enabled">Enabled +</option>
@@ -145,11 +63,23 @@
           <option value="other">Other</option>
         </select>
 
-        <button onclick="handleSelection()">Send</button>
+        <button
+          onclick="handleSelection()"
+          class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
+        >
+          Send
+        </button>
+
+        <button
+          onclick="resetChat()"
+          class="w-full bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 mt-2"
+        >
+          Restart
+        </button>
       </div>
-      <button class="reset-button" onclick="resetChat()">Restart</button>
     </div>
 
+    <!-- JavaScript -->
     <script>
       let currentQuestion = 0;
       let userName = "";
@@ -157,38 +87,47 @@
       const chatBox = document.getElementById("chat-box");
 
       const responses = {
-        "password": "Please try resetting your password via control alt delete. If locked out, contact Internal IT.",
-        "email": "Contact Apex for email issues or third-party services.",
-        "software": "Please select the software from the dropdown.",
-        "hardware": "Contact Internal IT or submit a ticket.",
-        "network": "For network issues, reach out to Apex.",
-        "other": "Submit an IT ticket for assistance."
+        password:
+          "Please try resetting your password via control alt delete. If locked out, contact Internal IT.",
+        email: "Contact Apex for email issues or third-party services.",
+        software: "Please select the software from the dropdown.",
+        hardware: "Contact Internal IT or submit a ticket.",
+        network: "For network issues, reach out to Apex.",
+        other: "Submit an IT ticket for assistance.",
       };
 
       const softwareSupport = {
         "ms-365-apps": "For Microsoft Office issues, contact Internal IT.",
-        "enabled": "For Enabled + issues, contact fetch.",
+        enabled: "For Enabled + issues, contact fetch.",
         "rforce/rSuite": "For rForce/rSuite, contact fetch.",
-        "ensemble": "For Ensemble, contact fetch.",
-        "five9": "For Five9, contact Angel Chaple.",
-        "other": "Submit an IT ticket for guidance."
+        ensemble: "For Ensemble, contact fetch.",
+        five9: "For Five9, contact Angel Chaple.",
+        other: "Submit an IT ticket for guidance.",
       };
 
       function addMessage(message, sender = "bot") {
         const div = document.createElement("div");
         div.textContent = message;
+        div.className = `p-2 rounded-md max-w-[75%] ${
+          sender === "user"
+            ? "bg-green-100 text-right ml-auto"
+            : "bg-gray-200 text-left"
+        }`;
         div.classList.add("chat-message", sender);
         chatBox.appendChild(div);
         chatBox.scrollTop = chatBox.scrollHeight;
       }
 
       function sendToGoogleSheet(name, issue) {
-        fetch("https://script.google.com/macros/s/AKfycbwvbyjaXUnFkNhqEofQ3TDATHJ2DQgfJoiAiyy9I7VtAb7nguq1VEjyGRBrwgcj27QF0w/exec", {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: name, issue: issue }),
-        }).catch(error => console.error('Error:', error));
+        fetch(
+          "https://script.google.com/macros/s/AKfycbwvbyjaXUnFkNhqEofQ3TDATHJ2DQgfJoiAiyy9I7VtAb7nguq1VEjyGRBrwgcj27QF0w/exec",
+          {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name, issue: issue }),
+          }
+        ).catch((error) => console.error("Error:", error));
       }
 
       function handleSelection() {
@@ -201,25 +140,28 @@
           if (!name) return;
           userName = name;
           addMessage(name, "user");
-          addMessage(`Nice to meet you, ${userName}! What kind of problem are you having?`, "bot");
-          nameInput.style.display = "none";
-          issueSelect.style.display = "block";
+          addMessage(
+            `Nice to meet you, ${userName}! What kind of problem are you having?`,
+            "bot"
+          );
+          nameInput.classList.add("hidden");
+          issueSelect.classList.remove("hidden");
           currentQuestion++;
           return;
         }
 
-        if (softwareSelect.style.display === "block") {
+        if (!softwareSelect.classList.contains("hidden")) {
           const software = softwareSelect.value;
           if (!software) return;
           addMessage(software, "user");
           addMessage(softwareSupport[software], "bot");
           sendToGoogleSheet(userName, software);
-          softwareSelect.style.display = "none";
-          issueSelect.style.display = "none";
+          softwareSelect.classList.add("hidden");
+          issueSelect.classList.add("hidden");
           return;
         }
 
-        if (issueSelect.style.display === "block") {
+        if (!issueSelect.classList.contains("hidden")) {
           const issue = issueSelect.value;
           if (!issue) return;
           addMessage(issue, "user");
@@ -227,9 +169,9 @@
           sendToGoogleSheet(userName, issue);
 
           if (issue === "software") {
-            softwareSelect.style.display = "block";
+            softwareSelect.classList.remove("hidden");
           } else {
-            issueSelect.style.display = "none";
+            issueSelect.classList.add("hidden");
           }
           return;
         }
@@ -237,9 +179,9 @@
 
       function resetChat() {
         chatBox.innerHTML = "";
-        document.getElementById("user-input").style.display = "block";
-        document.getElementById("issue-select").style.display = "none";
-        document.getElementById("software-select").style.display = "none";
+        document.getElementById("user-input").classList.remove("hidden");
+        document.getElementById("issue-select").classList.add("hidden");
+        document.getElementById("software-select").classList.add("hidden");
         document.getElementById("user-input").value = "";
         currentQuestion = 0;
         userName = "";
