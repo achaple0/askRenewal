@@ -51,6 +51,20 @@
         </select>
 
         <select
+          id="password-select"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md hidden"
+        >
+          <option value="">-- Select Password Type --</option>
+          <option value="windows-login">Windows Login Password</option>
+          <option value="ms365-login">MS365 (Teams, Outlook, etc) Login Password</option>
+          <option value="five9-login">Five9 Login Password</option>
+          <option value="enabled-password">Enabled+ Password</option>
+          <option value="ensemble-password">Ensemble Password</option>
+          <option value="culture-suite-password">CultureSuite Password</option>
+          <option value="rforce-password">rForce/rSuite Passwords</option>
+        </select>
+
+        <select
           id="software-select"
           class="w-full px-4 py-2 border border-gray-300 rounded-md hidden"
         >
@@ -87,29 +101,90 @@
       const chatBox = document.getElementById("chat-box");
 
       const responses = {
-        password:
-          "Please try resetting your password via control alt delete. If locked out, contact Internal IT.",
-        email: "Contact Apex for email issues or third-party services.",
-        software: "Please select the software from the dropdown.",
-        hardware: "Contact Internal IT or submit a ticket.",
-        network: "For network issues, reach out to Apex.",
-        other: "Submit an IT ticket for assistance.",
+        "password": "Select which password you need to reset:",
+
+        "email":
+          `For email issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+
+        "software": "Please select the software from the dropdown:",
+
+        "hardware":
+        `Contact Internal IT or submit a ticket (Internal: Angel/Derrick), 
+        <a href="mailto:achaple@rbacharlotte.com" class="text-blue-600 underline">Angel Chaple</a> <br>
+        Submit tickets to Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+
+        "network":
+          `For network issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+
+        "other":
+          `For all other issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
       };
 
       const softwareSupport = {
         "ms-365-apps":
-          "For Microsoft Office issues, contact Internal IT (Angel/Derrick).",
+          `For MS365 Issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+
         "enabled": `For Enabled + issues, contact fetch: 
-    <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
-    <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+          <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
+          <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+
         "rforce/rSuite": `For rForce/rSuite, contact fetch: 
-    <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
-    <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+          <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
+          <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+
         "ensemble": `For Ensemble, contact fetch: 
-    <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
-    <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
-        "five9": `For Five9, contact <a href="mailto:angel.chaple@example.com" class="text-blue-600 underline">Angel Chaple</a>.`,
-        "other": "Submit an IT ticket for guidance.",
+          <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> / 
+          <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+
+        "five9": `For Five9, contact <a href="mailto:achaple@rbacharlotte.com" class="text-blue-600 underline">Angel Chaple</a>.`,
+
+        "other": `For any other issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+      };
+
+      const passwordSupport = {
+        "windows-login":
+          `For Windows Login Issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+
+        "ms365-login":
+          `For MS365 Login Issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+
+        "five9-login":
+          'For Five9 passwords, contact <a href="mailto:achaple@rbacharlotte.com" class="text-blue-600 underline">Angel Chaple</a>.',
+
+        "enabled-password": `For Enabled+ password issues, contact fetch: 
+          <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> or visit 
+          <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+
+        "ensemble-password":
+          `For Ensemble password issues, contact fetch: 
+          <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> or visit 
+          <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
+
+        "culture-suite-password":
+          `For CultureSuite Login Issues, contact Apex: 
+          <a href="tel:18887228610" class="text-blue-600 underline">704-895-0010</a> option 7 / 
+          <a href="https://rba.myportallogin.com/" target="_blank" class="text-blue-600 underline">ApexManage360 Portal</a>`,
+
+        "rforce-password":
+          `For rForce/rSuite password issues, contact fetch: 
+          <a href="tel:18887228610" class="text-blue-600 underline">1-888-722-8610</a> or visit 
+          <a href="https://andersenprod.service-now.com/csm" target="_blank" class="text-blue-600 underline">ServiceNow Portal</a>`,
       };
 
       function addMessage(message, sender = "bot") {
@@ -140,6 +215,7 @@
       function handleSelection() {
         const nameInput = document.getElementById("user-input");
         const issueSelect = document.getElementById("issue-select");
+        const passwordSelect = document.getElementById("password-select");
         const softwareSelect = document.getElementById("software-select");
 
         if (currentQuestion === 0) {
@@ -154,6 +230,29 @@
           nameInput.classList.add("hidden");
           issueSelect.classList.remove("hidden");
           currentQuestion++;
+          return;
+        }
+
+        // Handle password issue branching
+        if (
+          !issueSelect.classList.contains("hidden") &&
+          issueSelect.value === "password"
+        ) {
+          if (passwordSelect.classList.contains("hidden")) {
+            addMessage(responses.password, "bot");
+            passwordSelect.classList.remove("hidden");
+            issueSelect.classList.add("hidden");
+            return;
+          }
+        }
+
+        if (!passwordSelect.classList.contains("hidden")) {
+          const passwordType = passwordSelect.value;
+          if (!passwordType) return;
+          addMessage(passwordType, "user");
+          addMessage(passwordSupport[passwordType], "bot");
+          sendToGoogleSheet(userName, passwordType);
+          passwordSelect.classList.add("hidden");
           return;
         }
 
@@ -177,6 +276,7 @@
 
           if (issue === "software") {
             softwareSelect.classList.remove("hidden");
+            issueSelect.classList.add("hidden");
           } else {
             issueSelect.classList.add("hidden");
           }
@@ -188,6 +288,7 @@
         chatBox.innerHTML = "";
         document.getElementById("user-input").classList.remove("hidden");
         document.getElementById("issue-select").classList.add("hidden");
+        document.getElementById("password-select").classList.add("hidden");
         document.getElementById("software-select").classList.add("hidden");
         document.getElementById("user-input").value = "";
         currentQuestion = 0;
