@@ -1,4 +1,4 @@
-<!--
+```
 askRenewal/
 │
 ├── index.html              # Main HTML file (structure and layout)
@@ -21,4 +21,4 @@ askRenewal/
 │
 └── /scripts/
     └── google-script.gs    # (Optional) Apps Script backend for Google Sheets integration
---> 
+```
