@@ -1,10 +1,3 @@
-Absolutely, Master Wayne — here’s a clean, professional **GitHub README.md** written in Markdown format for your `askRenewal` IT Help Chatbot project.
-
-You can copy and paste this directly into your project’s `README.md` file:
-
----
-
-````md
 # 🧠 askRenewal – IT Help Chatbot
 
 askRenewal is a simple, interactive **web-based IT directory chatbot** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
