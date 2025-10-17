@@ -1,3 +1,10 @@
+Absolutely, Master Wayne — here’s a clean, professional **GitHub README.md** written in Markdown format for your `askRenewal` IT Help Chatbot project.
+
+You can copy and paste this directly into your project’s `README.md` file:
+
+---
+
+````md
 # 🧠 askRenewal – IT Help Chatbot
 
 askRenewal is a simple, interactive **web-based IT directory chatbot** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
@@ -36,7 +43,49 @@ askRenewal is a simple, interactive **web-based IT directory chatbot** designed 
 
 ## 📸 Example Screenshot
 
-*(Optional: Add an image of your chatbot UI here)*
+<img width="1920" height="1080" alt="Screenshot from 2025-10-17 11-34-46" src="https://github.com/user-attachments/assets/85e49e4f-4f91-4fab-8a2b-68d15d2363cc" />
 
-```bash
-![askRenewal Screenshot](screenshot.png)
+
+---
+
+## 💾 Setup & Usage
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/<your-username>/askRenewal.git
+   cd askRenewal
+   ```
+
+2. Open the `index.html` file in your browser.
+
+3. (Optional) To enable data logging:
+
+   * Replace the existing Google Apps Script URL with your own endpoint in the `sendToGoogleSheet()` function.
+
+---
+
+## 🧠 Future Improvements
+
+* 🧑‍💻 Add AI-based intent recognition to interpret free-text input.
+* 🧭 Implement persistent chat history with localStorage or database support.
+* 🔔 Integrate automated ticket creation for IT systems (e.g., ServiceNow or Zendesk).
+* 🌐 Deploy as a PWA for offline access.
+
+---
+
+## 👨‍💻 Author
+
+**Angel Chaple**
+IT Specialist | Developer | Systems Enthusiast
+📧 [achaplejw@gmail.com](mailto:achaplejw@gmail.com)
+💼 [LinkedIn](https://www.linkedin.com/in/angelchaple)
+🌐 [GitHub](https://github.com/achaple0)
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+
