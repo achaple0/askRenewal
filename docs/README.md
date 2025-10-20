@@ -19,7 +19,7 @@ askRenewal is a simple, interactive **web-based IT directory chatbot** designed 
 | Category | Technology |
 |-----------|-------------|
 | Frontend | HTML5, TailwindCSS, JavaScript (ES6)         |
-| Backend Integration | Google Apps Script Webhook Python |
+| Backend Integration | Google Apps Script Webhook, Python |
 | Data Storage | Google Sheets (via API endpoint)         |
 
 ---
