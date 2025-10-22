@@ -10,3 +10,6 @@ __pycache__/
 
 # Logs
 *.log
+
+# original one page project before creating file structure
+../original_index.html
