@@ -1,3 +1,5 @@
+// data.js
+
 const responses = {
   password: "Select which password you need to reset:",
 

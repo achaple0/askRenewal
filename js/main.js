@@ -1,3 +1,5 @@
+// main.js 
+
 let currentQuestion = 0;
 let userName = "";
 const chatBox = document.getElementById("chat-box");

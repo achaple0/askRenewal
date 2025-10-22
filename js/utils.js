@@ -1,3 +1,5 @@
+// utils.js
+
 function addMessage(message, sender = "bot") {
 const div = document.createElement("div");
 div.innerHTML = message;
@@ -11,9 +13,12 @@ document.getElementById("chat-box").scrollTop = document.getElementById("chat-bo
 
 
 function sendToGoogleSheet(name, issue) {
-fetch("/api/submit", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ name: name, issue: issue }),
-});
+  fetch("http://localhost:5000/api/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: name, issue: issue }),
+  })
+  .then(response => response.json())
+  .then(data => console.log("Success:", data))
+  .catch(error => console.error("Error:", error));
 }
