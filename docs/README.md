@@ -1,6 +1,6 @@
-# 🧠 askRenewal – IT Help Chatbot
+# 🧠 askSharon – IT Directory
 
-askRenewal is a simple, interactive **web-based IT directory chatbot** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
+askSharon is a simple, interactive **web-based IT directory chatbot** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
 
 ---
 
@@ -46,8 +46,8 @@ askRenewal is a simple, interactive **web-based IT directory chatbot** designed 
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/<your-username>/askRenewal.git
-   cd askRenewal
+   git clone https://github.com/<your-username>/askSharon.git
+   cd askSharon
    ```
 
 2. Open the `index.html` file in your browser.
