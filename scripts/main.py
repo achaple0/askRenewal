@@ -4,11 +4,9 @@ from dotenv import load_dotenv
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import json
 
 load_dotenv()
-
-GOOGLE_SHEET_URL = os.getenv("GOOGLE_SHEET_URL")
-
 
 app = Flask(__name__)
 
@@ -25,28 +23,40 @@ CORS(app, resources={
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
-creds = ServiceAccountCredentials.from_json_keyfile_name('../credentials.json', scope)
+# Use environment variable for credentials
+# This allows us to store credentials securely without committing the file
+if os.path.exists('credentials.json'):
+    # Local development - use file
+    creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
+else:
+    # Production - use environment variable
+    creds_dict = json.loads(os.getenv('GOOGLE_CREDENTIALS_JSON'))
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+
 client = gspread.authorize(creds)
 
-# Open your Google Sheet (replace with your sheet name)
-sheet = client.open("IT_Help_Desk_Log").sheet1
+# Get sheet name from environment variable
+sheet_name = os.getenv('SHEET_NAME', 'IT_Help_Desk_Log')
+sheet = client.open(sheet_name).sheet1
 
 @app.route('/api/submit', methods=['POST', 'OPTIONS'])
 def submit():
-    # Handle preflight request
     if request.method == 'OPTIONS':
         return '', 204
     
     try:
+        from datetime import datetime
+        
         print("Request received!")
         data = request.json
         name = data.get('name')
         issue = data.get('issue')
         
-        print(f"Name: {name}, Issue: {issue}")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
-        # Append to Google Sheet
-        sheet.append_row([name, issue])
+        print(f"Name: {name}, Issue: {issue}, Time: {timestamp}")
+        
+        sheet.append_row([timestamp, name, issue])
         
         print("Data added to sheet!")
         
@@ -55,11 +65,6 @@ def submit():
         print(f"ERROR: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route("/api/config", methods=["GET"])
-def get_config():
-    return jsonify({
-        "GOOGLE_SHEET_URL": GOOGLE_SHEET_URL
-    })
-
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.getenv('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)

@@ -1,15 +1,25 @@
-# Ignore environment variables
-.env
+# Virtual Environment
+venv/
+env/
 
-# Python cache
+# Secret Files
+credentials.json
+.env
+*.env
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
 
-# OS files
+# OS Files
 .DS_Store
+Thumbs.db
 
-# Logs
-*.log
-
-# original one page project before creating file structure
-../original_index.html
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

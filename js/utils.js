@@ -12,23 +12,18 @@ document.getElementById("chat-box").scrollTop = document.getElementById("chat-bo
 }
 
 
-async function sendToGoogleSheet(name, issue) {
-  try {
-    // Step 1: Get config from Flask
-    const configResponse = await fetch("http://localhost:5000/api/config");
-    const config = await configResponse.json();
-    const endpoint = config.GOOGLE_SHEET_URL;
-
-    // Step 2: Use the endpoint dynamically
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, issue }),
-    });
-
-    const data = await response.json();
-    console.log("Success:", data);
-  } catch (error) {
-    console.error("Error:", error);
-  }
+function sendToGoogleSheet(name, issue) {
+  // Automatically detect if we're in development or production
+  const apiURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000/api/submit'
+    : 'https://your-domain.com/api/submit';  // Update this when you deploy
+  
+  fetch(apiURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: name, issue: issue }),
+  })
+  .then(response => response.json())
+  .then(data => console.log("Success:", data))
+  .catch(error => console.error("Error:", error));
 }
