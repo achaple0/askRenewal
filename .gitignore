@@ -7,6 +7,7 @@ credentials.json
 .env
 *.env
 
+../original_index.html
 # Python
 __pycache__/
 *.pyc
