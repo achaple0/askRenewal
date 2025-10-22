@@ -36,7 +36,8 @@ askSharon is a simple, interactive **web-based IT directory ** designed to assis
 
 ## 📸 Example Screenshot
 
-<img width="1920" height="1080" alt="Screenshot from 2025-10-17 11-34-46" src="https://github.com/user-attachments/assets/85e49e4f-4f91-4fab-8a2b-68d15d2363cc" />
+<img width="1919" height="992" alt="image" src="https://github.com/user-attachments/assets/1488c6e5-6582-4318-81d7-65bd4d112002" />
+
 
 
 ---
