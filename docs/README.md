@@ -1,6 +1,6 @@
 # 🧠 askSharon – IT Directory
 
-askSharon is a simple, interactive **web-based IT directory chatbot** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
+askSharon is a simple, interactive **web-based IT directory ** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
 
 ---
 
@@ -26,7 +26,7 @@ askSharon is a simple, interactive **web-based IT directory chatbot** designed t
 
 ## ⚙️ How It Works
 
-1. The chatbot begins by asking for the user’s **full name**.  
+1. The  begins by asking for the user’s **full name**.  
 2. It then presents an **issue dropdown** (Password, Email, Hardware, etc.).  
 3. Depending on the selection, additional context menus appear for **specific subcategories**.  
 4. The bot provides contact information or instructions automatically.  
