@@ -7,6 +7,9 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 load_dotenv()
 
+GOOGLE_SHEET_URL = os.getenv("GOOGLE_SHEET_URL")
+
+
 app = Flask(__name__)
 
 # Better CORS configuration
@@ -51,6 +54,12 @@ def submit():
     except Exception as e:
         print(f"ERROR: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/config", methods=["GET"])
+def get_config():
+    return jsonify({
+        "GOOGLE_SHEET_URL": GOOGLE_SHEET_URL
+    })
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
