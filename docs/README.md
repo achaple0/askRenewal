@@ -1,7 +1,7 @@
 # 🧠 askSharon – IT Directory
+[Live Web App Link](https://web-production-b2713.up.railway.app/)
 
 askSharon is a simple, interactive **web-based IT directory ** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
-[Live Web App Link](https://web-production-b2713.up.railway.app/)
 
 ---
 
