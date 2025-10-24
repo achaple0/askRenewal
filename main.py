@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -9,8 +9,8 @@ from datetime import datetime
 
 load_dotenv()
 
-# Configure static folder
-app = Flask(__name__, static_folder='static', static_url_path='')
+# Simple static folder config
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 
 # CORS configuration
 CORS(app, resources={
@@ -64,12 +64,7 @@ def submit():
 # Serve index.html at root
 @app.route('/')
 def index():
-    return send_from_directory('static', 'index.html')
-
-# Serve all other static files
-@app.route('/<path:path>')
-def serve_static(path):
-    return send_from_directory('static', path)
+    return app.send_static_file('index.html')
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
