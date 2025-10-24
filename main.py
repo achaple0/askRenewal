@@ -6,13 +6,12 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
 from datetime import datetime
+import pytz  # Add this
 
 load_dotenv()
 
-# Simple static folder config
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 
-# CORS configuration
 CORS(app, resources={
     r"/api/*": {
         "origins": "*",
@@ -25,7 +24,6 @@ CORS(app, resources={
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
-# Use environment variable for credentials in production, file for local dev
 if os.path.exists('credentials.json'):
     creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
 else:
@@ -48,7 +46,9 @@ def submit():
         name = data.get('name')
         issue = data.get('issue')
         
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Use Eastern Time
+        eastern = pytz.timezone('America/New_York')
+        timestamp = datetime.now(eastern).strftime("%Y-%m-%d %I:%M:%S %p")  # Added AM/PM
         
         print(f"Name: {name}, Issue: {issue}, Time: {timestamp}")
         
@@ -61,7 +61,6 @@ def submit():
         print(f"ERROR: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# Serve index.html at root
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
