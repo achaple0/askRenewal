@@ -1,7 +1,7 @@
 # 🧠 askSharon – IT Directory
 [Live Web App Link](https://web-production-b2713.up.railway.app/)
 
-askSharon is a simple, interactive **web-based IT directory ** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
+askSharon is a simple, interactive **web-based IT directory ** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, **vanilla JavaScript**, and **Python/Flask** it provides a clean, responsive interface that mimics a real-time chat interaction.
 
 ---
 
@@ -20,7 +20,7 @@ askSharon is a simple, interactive **web-based IT directory ** designed to assis
 | Category | Technology |
 |-----------|-------------|
 | Frontend | HTML5, TailwindCSS, JavaScript (ES6)         |
-| Backend Integration | Google Apps Script Webhook, Python |
+| Backend Integration | Google Apps Script Webhook, Python(Flask) |
 | Data Storage | Google Sheets (via API endpoint)         |
 
 ---
