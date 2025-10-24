@@ -13,10 +13,8 @@ document.getElementById("chat-box").scrollTop = document.getElementById("chat-bo
 
 
 function sendToGoogleSheet(name, issue) {
-  // Automatically detect if we're in development or production
-  const apiURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000/api/submit'
-    : 'https://your-domain.com/api/submit';  // Update this when you deploy
+  // Use relative path - Railway serves everything from same domain
+  const apiURL = '/api/submit';
   
   fetch(apiURL, {
     method: "POST",
