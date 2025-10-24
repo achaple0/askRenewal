@@ -1,6 +1,7 @@
 # 🧠 askSharon – IT Directory
 
 askSharon is a simple, interactive **web-based IT directory ** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, and **vanilla JavaScript**, it provides a clean, responsive interface that mimics a real-time chat interaction.
+[Link text Here](https://web-production-b2713.up.railway.app/)
 
 ---
 
