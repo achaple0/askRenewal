@@ -70,6 +70,10 @@ def submit():
         print(f"ERROR: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
