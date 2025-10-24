@@ -53,10 +53,6 @@ askSharon is a simple, interactive **web-based IT directory ** designed to assis
 
 2. Open the `index.html` file in your browser.
 
-3. (Optional) To enable data logging:
-
-   * Replace the existing Google Apps Script URL with your own endpoint in the `sendToGoogleSheet()` function.
-
 ---
 
 ## 🧠 Future Improvements
