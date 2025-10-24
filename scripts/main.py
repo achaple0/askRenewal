@@ -72,7 +72,7 @@ def submit():
 
 @app.route('/')
 def index():
-    return app.send_static_file('index.html'):w
+    return app.send_static_file('index.html')
 
 
 if __name__ == '__main__':
