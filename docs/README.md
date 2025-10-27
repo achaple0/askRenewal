@@ -53,6 +53,7 @@ askSharon is a simple, interactive **web-based IT directory ** designed to assis
    ```
 
 2. Open the `index.html` file in your browser.
+   (Database would be needed to store any responses. To see live version that is connected to a DB, check out the link above.) 
 
 ---
 
