@@ -1,7 +1,7 @@
-# 🧠 askSharon – IT Directory
+# 🧠 askRenewal – IT Directory
 <a href="https://web-production-b2713.up.railway.app/" target="_blank">Live Web App Link</a>
 
-askSharon is a simple, interactive **web-based IT directory ** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, **vanilla JavaScript**, and **Python/Flask** it provides a clean, responsive interface that mimics a real-time chat interaction.
+askRenewal is a simple, interactive **web-based IT directory ** designed to assist users in identifying the correct IT contact or resource for their technical issues. Built using **HTML**, **TailwindCSS**, **vanilla JavaScript**, and **Python/Flask** it provides a clean, responsive interface that mimics a real-time chat interaction.
 
 ---
 
@@ -48,8 +48,8 @@ askSharon is a simple, interactive **web-based IT directory ** designed to assis
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/<your-username>/askSharon.git
-   cd askSharon
+   git clone https://github.com/<your-username>/askRenewal.git
+   cd askRenewal
    ```
 
 2. Open the `index.html` file in your browser.
